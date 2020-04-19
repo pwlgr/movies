@@ -16,7 +16,7 @@ $control-border-width: 2px;
 $input-border-color: transparent;
 $input-shadow: none;
 
-// Set custom global styles (will be applied to whole app)
+$light: #f8f8f8;
 
 html {
 	background: linear-gradient(to right top, $turquoise, $green);

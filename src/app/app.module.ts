@@ -5,10 +5,16 @@ import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
+import { TaskViewComponent } from './pages/task-view/task-view.component';
+import { TMovieViewComponent } from './pages/tmovie-view/tmovie-view.component';
+import { MovieViewComponent } from './pages/movie-view/movie-view.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TaskViewComponent,
+    TMovieViewComponent,
+    MovieViewComponent
   ],
   imports: [
     BrowserModule,
