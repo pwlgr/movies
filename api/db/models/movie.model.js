@@ -7,7 +7,7 @@ const MovieSchema = new mongoose.Schema({
 		minlength: 1,
 		trim: true
 	},
-	_movieId: {
+	_genreId: {
 		type: mongoose.Types.ObjectId,
 		required: true
 	}
