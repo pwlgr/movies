@@ -24,9 +24,24 @@ app.post('/genres', (req, res) => {
 	});
 });
 
-app.patch('/genres/:id', (req, res) => {});
+app.patch('/genres/:id', (req, res) => {
+	Genre.findOneAndUpdate(
+		{ _id: req.params.id },
+		{
+			$set: req.body
+		}
+	).then(() => {
+		res.sendStatus(200);
+	});
+});
 
-app.delete('/genres/:id', (req, res) => {});
+app.delete('/genres/:id', (req, res) => {
+	Genre.findOneAndRemove({
+		_id: req.params.id
+	}).then((removeListDoc) => {
+		res.send(removeListDoc);
+	});
+});
 
 app.listen(3000, () => {
 	console.log('Listening on 3000...');
