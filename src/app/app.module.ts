@@ -5,24 +5,14 @@ import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { TaskViewComponent } from './pages/task-view/task-view.component';
-import { TMovieViewComponent } from './pages/tmovie-view/tmovie-view.component';
 import { MovieViewComponent } from './pages/movie-view/movie-view.component';
+import { MovieService } from './movie.service';
+import { WebRequestService } from './web-request.service';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    TaskViewComponent,
-    TMovieViewComponent,
-    MovieViewComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule,
-    AppRoutingModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+	declarations: [ AppComponent, MovieViewComponent ],
+	imports: [ BrowserModule, AppRoutingModule, HttpModule ],
+	providers: [ MovieService, WebRequestService ],
+	bootstrap: [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule {}
