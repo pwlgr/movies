@@ -6,11 +6,20 @@ import { NewGenreComponent } from './pages/new-genre/new-genre.component';
 const routes: Routes = [
 	{
 		path: '',
-		component: MovieViewComponent
+		redirectTo: 'genres',
+		pathMatch: 'full'
 	},
 	{
 		path: 'new-genre',
 		component: NewGenreComponent
+	},
+	{
+		path: 'genres',
+		component: MovieViewComponent
+	},
+	{
+		path: 'genres/:genreId',
+		component: MovieViewComponent
 	}
 ];
 

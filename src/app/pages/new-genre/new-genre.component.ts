@@ -12,8 +12,6 @@ export class NewGenreComponent implements OnInit {
 
 	ngOnInit() {}
 	createNewGenre(title: string) {
-		this.movieService.createGenre(title).subscribe((res: any) => {
-			console.log(res);
-		});
+		this.movieService.createGenre(title).subscribe((res: any) => {});
 	}
 }

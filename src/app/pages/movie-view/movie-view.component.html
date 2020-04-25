@@ -8,8 +8,8 @@
         <a class="list-menu-item">
           <p>List 1</p>
         </a>
-        <a class="list-menu-item">
-          <p>List 2</p>
+        <a class="list-menu-item" *ngFor="let genre of genres">
+          <p>{{ genre.title }}</p>
         </a>
       </div>
       <button class="button is-primary has-text-white" routerLink="/new-genre">+ New Genre</button>

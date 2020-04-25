@@ -8,4 +8,8 @@ export class MovieService {
 	createGenre(title: string) {
 		return this.webReqService.post('genres', { title });
 	}
+
+	getGenres() {
+		return this.webReqService.get('genres');
+	}
 }

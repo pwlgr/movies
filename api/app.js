@@ -20,9 +20,13 @@ app.use(function(req, res, next) {
 });
 
 app.get('/genres', (req, res) => {
-	Genre.find({}).then((genres) => {
-		res.send(genres);
-	});
+	Genre.find({})
+		.then((genres) => {
+			res.send(genres);
+		})
+		.catch((e) => {
+			res.send(e);
+		});
 });
 
 app.post('/genres', (req, res) => {
