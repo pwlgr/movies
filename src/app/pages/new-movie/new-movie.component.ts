@@ -19,7 +19,7 @@ export class NewMovieComponent implements OnInit {
 
 	createMovie(title: string) {
 		this.movieService.createMovie(title, this.genreId).subscribe((res: any) => {
-			this.router.navigate([ 'genres', this.genreId ]);
+			this.router.navigate([ '../' ], { relativeTo: this.route });
 		});
 	}
 }

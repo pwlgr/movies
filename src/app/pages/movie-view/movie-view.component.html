@@ -19,7 +19,7 @@
       <div class="movie" *ngFor="let movie of movies">
         <p>{{movie.title}}</p>
       </div>
-      <button class="circle-add-button button is-primary">
+      <button class="circle-add-button button is-primary" routerLink="./new-movie">
         <img src="../../../assets/plus-icon.svg" class="has-text-white">
       </button>
     </div>
