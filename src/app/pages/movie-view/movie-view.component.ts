@@ -16,10 +16,8 @@ export class MovieViewComponent implements OnInit {
 
 	ngOnInit() {
 		this.route.params.subscribe((params: any) => {
-			console.log(params);
 			this.movieService.getMovies(params.genreId).subscribe((movies: any) => {
 				this.movies = JSON.parse(movies._body);
-				console.log(this.movies);
 			});
 		});
 

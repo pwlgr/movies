@@ -23,7 +23,7 @@ const routes: Routes = [
 		component: MovieViewComponent
 	},
 	{
-		path: 'new-movie',
+		path: 'genres/:genreId/new-movie',
 		component: NewMovieComponent
 	}
 ];

@@ -16,4 +16,8 @@ export class MovieService {
 	getMovies(genreId: string) {
 		return this.webReqService.get(`genres/${genreId}/movies`);
 	}
+
+	createMovie(title: string, genreId: string) {
+		return this.webReqService.post(`genres/${genreId}/movies`, { title });
+	}
 }
