@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { MovieService } from '../../movie.service';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Movie } from '../../models/movie.model';
+import { Genre } from '../../models/genre.model';
+
 @Component({
 	selector: 'app-movie-view',
 	templateUrl: './movie-view.component.html',
 	styleUrls: [ './movie-view.component.scss' ]
 })
 export class MovieViewComponent implements OnInit {
-	genres: any[];
-	movies: any[];
+	genres: Genre[];
+	movies: Movie[];
 	constructor(private movieService: MovieService, private route: ActivatedRoute) {}
 
 	ngOnInit() {

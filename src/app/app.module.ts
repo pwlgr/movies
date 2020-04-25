@@ -9,9 +9,10 @@ import { MovieViewComponent } from './pages/movie-view/movie-view.component';
 import { MovieService } from './movie.service';
 import { WebRequestService } from './web-request.service';
 import { NewGenreComponent } from './pages/new-genre/new-genre.component';
+import { NewMovieComponent } from './pages/new-movie/new-movie.component';
 
 @NgModule({
-	declarations: [ AppComponent, MovieViewComponent, NewGenreComponent ],
+	declarations: [ AppComponent, MovieViewComponent, NewGenreComponent, NewMovieComponent ],
 	imports: [ BrowserModule, AppRoutingModule, HttpModule ],
 	providers: [ MovieService, WebRequestService ],
 	bootstrap: [ AppComponent ]
