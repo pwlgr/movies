@@ -5,10 +5,7 @@
         Genres
       </h1>
       <div class="list-menu">
-        <a class="list-menu-item">
-          <p>List 1</p>
-        </a>
-        <a class="list-menu-item" *ngFor="let genre of genres">
+        <a class="list-menu-item" *ngFor="let genre of genres" [routerLink]="['/genres', genre._id]" routerLinkActive="is-active">
           <p>{{ genre.title }}</p>
         </a>
       </div>
@@ -19,14 +16,8 @@
       <h1 class="title has-text-primary">
         Movies
       </h1>
-      <div class="movie">
-        <p>something to do</p>
-      </div>
-      <div class="movie">
-        <p>something to do</p>
-      </div>
-      <div class="movie watched">
-        <p>something to do</p>
+      <div class="movie" *ngFor="let movie of movies">
+        <p>{{movie.title}}</p>
       </div>
     </div>
   </div>
