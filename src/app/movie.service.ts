@@ -20,4 +20,8 @@ export class MovieService {
 	createMovie(title: string, genreId: string) {
 		return this.webReqService.post(`genres/${genreId}/movies`, { title });
 	}
+
+	watch(movie) {
+		return this.webReqService.patch(`genres/${movie._genreId}/movies/${movie._id}`, { watched: true });
+	}
 }

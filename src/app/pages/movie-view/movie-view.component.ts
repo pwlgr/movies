@@ -25,4 +25,10 @@ export class MovieViewComponent implements OnInit {
 			this.genres = JSON.parse(genres._body);
 		});
 	}
+
+	onMovieClick(movie: Movie) {
+		this.movieService.watch(movie).subscribe(() => {
+			console.log('Completed succesfully.');
+		});
+	}
 }

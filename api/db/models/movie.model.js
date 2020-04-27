@@ -10,6 +10,10 @@ const MovieSchema = new mongoose.Schema({
 	_genreId: {
 		type: mongoose.Types.ObjectId,
 		required: true
+	},
+	watched: {
+		type: Boolean,
+		default: false
 	}
 });
 

@@ -16,7 +16,7 @@
       <h1 class="title has-text-primary">
         Movies
       </h1>
-      <div class="movie" *ngFor="let movie of movies">
+      <div class="movie" *ngFor="let movie of movies" (click)="onMovieClick(movie)" [ngClass]="{ 'watched': movie.watched }">
         <p>{{movie.title}}</p>
       </div>
       <button class="circle-add-button button is-primary" routerLink="./new-movie">
