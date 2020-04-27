@@ -28,7 +28,7 @@ export class MovieViewComponent implements OnInit {
 
 	onMovieClick(movie: Movie) {
 		this.movieService.watch(movie).subscribe(() => {
-			console.log('Completed succesfully.');
+			movie.watched = !movie.watched;
 		});
 	}
 }

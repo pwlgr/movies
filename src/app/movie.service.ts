@@ -22,6 +22,6 @@ export class MovieService {
 	}
 
 	watch(movie) {
-		return this.webReqService.patch(`genres/${movie._genreId}/movies/${movie._id}`, { watched: true });
+		return this.webReqService.patch(`genres/${movie._genreId}/movies/${movie._id}`, { watched: !movie.watched });
 	}
 }
