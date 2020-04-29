@@ -61,3 +61,41 @@ UserSchema.methods.generateRefreshToken = function() {
 		});
 	});
 };
+
+UserSchema.methods.createSession = function() {
+	let user = this;
+	return user
+		.generateAccessAuthToken()
+		.then((refreshToken) => {
+			return saveSessionToDatabase(user, refreshToken);
+		})
+		.then((refreshToken) => {
+			return refreshToken;
+		})
+		.catch((e) => {
+			return Promise.reject('Failed to save session to database\n' + e);
+		});
+};
+
+let saveSessionToDatabase = (user, refreshToken) => {
+	return new Promise((resolve, reject) => {
+		let expiresAt = generateRefreshTokenExpiryTime();
+
+		user.sessions.push({ token: refreshToken, expiredAt });
+
+		user
+			.save()
+			.then(() => {
+				return resolve(refreshToken);
+			})
+			.catch((e) => {
+				reject(e);
+			});
+	});
+};
+
+let generateRefreshTokenExpiryTime = () => {
+	let daysUntilExpire = '10';
+	let secondsUntilExpire = daysUntilExpire * 24 * 60 * 60;
+	return Date.now() / 1000 + secondsUntilExpire;
+};
