@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 
 const jwtSecret = '97353273838983877901dsfasdadfeerdvv1871021193';
 
@@ -45,6 +46,17 @@ UserSchema.methods.generateAccessAuthToken = function() {
 				resolve(token);
 			} else {
 				reject();
+			}
+		});
+	});
+};
+
+UserSchema.methods.generateRefreshToken = function() {
+	return new Promise((resolve, reject) => {
+		crypto.randomBytes(64, (err, buf) => {
+			if (!err) {
+				let token = buf.toString('hex');
+				return resolve(token);
 			}
 		});
 	});
