@@ -3,12 +3,17 @@ import { Routes, RouterModule } from '@angular/router';
 import { MovieViewComponent } from './pages/movie-view/movie-view.component';
 import { NewGenreComponent } from './pages/new-genre/new-genre.component';
 import { NewMovieComponent } from './pages/new-movie/new-movie.component';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
 
 const routes: Routes = [
 	{
 		path: '',
 		redirectTo: 'genres',
 		pathMatch: 'full'
+	},
+	{
+		path: 'login',
+		component: LoginPageComponent
 	},
 	{
 		path: 'new-genre',
