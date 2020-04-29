@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-
+const bcrypt = require('bcryptjs');
 const jwtSecret = '97353273838983877901dsfasdadfeerdvv1871021193';
 
 const UserSchema = new mongoose.Schema({
@@ -77,6 +77,64 @@ UserSchema.methods.createSession = function() {
 		});
 };
 
+UserSchema.statics.findByIdAndToken = function(_id, token) {
+	const User = this;
+
+	return User.findOne({
+		_id,
+		'sessions.token': token
+	});
+};
+
+UserSchema.statics.findByCredentials = function(email, password) {
+	let User = this;
+	return User.findOne({ email }).then((user) => {
+		if (!user) return Promise.reject();
+
+		return new Promise((resolve, reject) => {
+			return User.findOne({ email }).then((user) => {
+				if (!user) return Promise.reject();
+
+				return new Promise((resolve, reject) => {
+					bcrypt.compare(password, user.password, (err, res) => {
+						if (res) {
+							resolve(user);
+						} else {
+							reject();
+						}
+					});
+				});
+			});
+		});
+	});
+};
+
+UserSchema.statics.hasRefreshedTokenExpired = (expiresAt) => {
+	let secondsSinceEpoch = Date.now() / 1000;
+
+	if (expiresAt > secondsSinceEpoch) {
+		return false;
+	} else {
+		return true;
+	}
+};
+
+UserSchema.pre('save', function(next) {
+	let user = this;
+	let costFactor = 10;
+
+	if (user.isModified('password')) {
+		bcrypt.genSalt(costFactor, (err, salt) => {
+			bcrypt.hash(user.password, salt, (err, hash) => {
+				user.password = hash;
+				next();
+			});
+		});
+	} else {
+		next();
+	}
+});
+
 let saveSessionToDatabase = (user, refreshToken) => {
 	return new Promise((resolve, reject) => {
 		let expiresAt = generateRefreshTokenExpiryTime();
@@ -99,3 +157,6 @@ let generateRefreshTokenExpiryTime = () => {
 	let secondsUntilExpire = daysUntilExpire * 24 * 60 * 60;
 	return Date.now() / 1000 + secondsUntilExpire;
 };
+
+const User = mongoose.model('User', User);
+module.exports = { User };
