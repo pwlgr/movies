@@ -137,7 +137,7 @@ UserSchema.pre('save', function(next) {
 
 let saveSessionToDatabase = (user, refreshToken) => {
 	return new Promise((resolve, reject) => {
-		let expiresAt = generateRefreshTokenExpiryTime();
+		let expiredAt = generateRefreshTokenExpiryTime();
 
 		user.sessions.push({ token: refreshToken, expiredAt });
 
@@ -158,5 +158,5 @@ let generateRefreshTokenExpiryTime = () => {
 	return Date.now() / 1000 + secondsUntilExpire;
 };
 
-const User = mongoose.model('User', User);
+const User = mongoose.model('User', UserSchema);
 module.exports = { User };
