@@ -3,7 +3,8 @@ const _ = require('lodash');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
-const jwtSecret = '97353273838983877901dsfasdadfeerdvv1871021193';
+
+const jwtSecret = '51778657246321226641fsdklafjasdkljfsklfjd';
 
 const UserSchema = new mongoose.Schema({
 	email: {
@@ -24,7 +25,7 @@ const UserSchema = new mongoose.Schema({
 				type: String,
 				required: true
 			},
-			expiredAt: {
+			expiresAt: {
 				type: Number,
 				required: true
 			}
@@ -32,15 +33,18 @@ const UserSchema = new mongoose.Schema({
 	]
 });
 
-UserSchema.method.toJSON = function() {
+UserSchema.methods.toJSON = function() {
 	const user = this;
 	const userObject = user.toObject();
-	return _.omit(userObject, [ 'password', 'sessions' ]); //return the doc except password and sessions, shouldnt be available
+
+	// return the document except the password and sessions , shouldn't be  available
+	return _.omit(userObject, [ 'password', 'sessions' ]);
 };
 
 UserSchema.methods.generateAccessAuthToken = function() {
 	const user = this;
 	return new Promise((resolve, reject) => {
+		// creating the JSON web token and return that
 		jwt.sign({ _id: user._id.toHexString() }, jwtSecret, { expiresIn: '15m' }, (err, token) => {
 			if (!err) {
 				resolve(token);
@@ -51,11 +55,13 @@ UserSchema.methods.generateAccessAuthToken = function() {
 	});
 };
 
-UserSchema.methods.generateRefreshToken = function() {
+UserSchema.methods.generateRefreshAuthToken = function() {
+	//generates a 64byte hex string - it doesn't save it to the database. saveSessionToDatabase() does that.
 	return new Promise((resolve, reject) => {
 		crypto.randomBytes(64, (err, buf) => {
 			if (!err) {
 				let token = buf.toString('hex');
+
 				return resolve(token);
 			}
 		});
@@ -64,20 +70,30 @@ UserSchema.methods.generateRefreshToken = function() {
 
 UserSchema.methods.createSession = function() {
 	let user = this;
+
 	return user
-		.generateAccessAuthToken()
+		.generateRefreshAuthToken()
 		.then((refreshToken) => {
 			return saveSessionToDatabase(user, refreshToken);
 		})
 		.then((refreshToken) => {
+			// saved to database successfully
+			// now return the refresh token
 			return refreshToken;
 		})
 		.catch((e) => {
-			return Promise.reject('Failed to save session to database\n' + e);
+			return Promise.reject('Failed to save session to database.\n' + e);
 		});
 };
 
+UserSchema.statics.getJWTSecret = () => {
+	return jwtSecret;
+};
+
 UserSchema.statics.findByIdAndToken = function(_id, token) {
+	// finds user by id and token
+	// used in auth middleware (verifySession)
+
 	const User = this;
 
 	return User.findOne({
@@ -92,29 +108,24 @@ UserSchema.statics.findByCredentials = function(email, password) {
 		if (!user) return Promise.reject();
 
 		return new Promise((resolve, reject) => {
-			return User.findOne({ email }).then((user) => {
-				if (!user) return Promise.reject();
-
-				return new Promise((resolve, reject) => {
-					bcrypt.compare(password, user.password, (err, res) => {
-						if (res) {
-							resolve(user);
-						} else {
-							reject();
-						}
-					});
-				});
+			bcrypt.compare(password, user.password, (err, res) => {
+				if (res) {
+					resolve(user);
+				} else {
+					reject();
+				}
 			});
 		});
 	});
 };
 
-UserSchema.statics.hasRefreshedTokenExpired = (expiresAt) => {
+UserSchema.statics.hasRefreshTokenExpired = (expiresAt) => {
 	let secondsSinceEpoch = Date.now() / 1000;
-
 	if (expiresAt > secondsSinceEpoch) {
+		// not expired
 		return false;
 	} else {
+		// has expired
 		return true;
 	}
 };
@@ -137,9 +148,9 @@ UserSchema.pre('save', function(next) {
 
 let saveSessionToDatabase = (user, refreshToken) => {
 	return new Promise((resolve, reject) => {
-		let expiredAt = generateRefreshTokenExpiryTime();
+		let expiresAt = generateRefreshTokenExpiryTime();
 
-		user.sessions.push({ token: refreshToken, expiredAt });
+		user.sessions.push({ token: refreshToken, expiresAt });
 
 		user
 			.save()
@@ -159,4 +170,5 @@ let generateRefreshTokenExpiryTime = () => {
 };
 
 const User = mongoose.model('User', UserSchema);
+
 module.exports = { User };
