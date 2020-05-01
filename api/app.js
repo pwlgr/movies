@@ -4,7 +4,7 @@ const app = express();
 const { mongoose } = require('./db/mongoose');
 
 const bodyParser = require('body-parser');
-const { Genre, Movie } = require('./db/models');
+const { Genre, Movie, User } = require('./db/models');
 
 app.use(bodyParser.json());
 
@@ -95,6 +95,31 @@ app.delete('/genres/:genreId/movies/:movieId', (req, res) => {
 	}).then((removeMovieDoc) => {
 		res.send(removeMovieDoc);
 	});
+});
+
+app.post('/users', (req, res) => {
+	let body = req.body;
+	let newUser = new User(body);
+
+	newUser
+		.save()
+		.then(() => {
+			return newUser.createSession();
+		})
+		.then((refreshToken) => {
+			return newUser.generateAccessAuthToken().then((accessToken) => {
+				return { accessToken, refreshToken };
+			});
+		})
+		.then((authTokens) => {
+			res
+				.header('x-refresh-token', authTokens.refreshToken)
+				.header('x-access-token', authTokens.accessToken)
+				.send(newUser);
+		})
+		.catch((err) => {
+			res.status(400).send(err);
+		});
 });
 
 app.listen(3000, () => {
