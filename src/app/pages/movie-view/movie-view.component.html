@@ -13,15 +13,23 @@
 
     </div>
     <div class="movie-list-container has-background-light">
-      <h1 class="title has-text-primary">
-        Movies
-      </h1>
-      <div class="movie" *ngFor="let movie of movies" (click)="onMovieClick(movie)" [ngClass]="{ 'watched': movie.watched }">
-        <p>{{movie.title}}</p>
+      <div *ngIf="movies">
+          <h1 class="title has-text-primary">
+              Movies
+            </h1>
+            <div class="movie" *ngFor="let movie of movies" (click)="onMovieClick(movie)" [ngClass]="{ 'watched': movie.watched }">
+              <p>{{movie.title}}</p>
+            </div>
+
+            <h3 class="empty-state-text" *ngIf="!movies.length">Ooops! Looks like you haven't add any movies for this genre..</h3>
+
+            <button class="circle-add-button button is-primary" routerLink="./new-movie">
+              <img src="../../../assets/plus-icon.svg" class="has-text-white">
+            </button>
       </div>
-      <button class="circle-add-button button is-primary" routerLink="./new-movie">
-        <img src="../../../assets/plus-icon.svg" class="has-text-white">
-      </button>
+      <div *ngIf="!movies">
+          <h3 class="empty-state-text">Please select movies genre..</h3>
+      </div>
     </div>
   </div>
   <router-outlet></router-outlet>
