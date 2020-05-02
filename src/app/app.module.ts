@@ -11,11 +11,12 @@ import { WebRequestService } from './web-request.service';
 import { NewGenreComponent } from './pages/new-genre/new-genre.component';
 import { NewMovieComponent } from './pages/new-movie/new-movie.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { AuthService } from './auth.service';
 
 @NgModule({
 	declarations: [ AppComponent, MovieViewComponent, NewGenreComponent, NewMovieComponent, LoginPageComponent ],
 	imports: [ BrowserModule, AppRoutingModule, HttpModule ],
-	providers: [ MovieService, WebRequestService ],
+	providers: [ MovieService, WebRequestService, AuthService ],
 	bootstrap: [ AppComponent ]
 })
 export class AppModule {}
