@@ -12,9 +12,10 @@ import { NewGenreComponent } from './pages/new-genre/new-genre.component';
 import { NewMovieComponent } from './pages/new-movie/new-movie.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { AuthService } from './auth.service';
+import { SignupPageComponent } from './pages/signup-page/signup-page.component';
 
 @NgModule({
-	declarations: [ AppComponent, MovieViewComponent, NewGenreComponent, NewMovieComponent, LoginPageComponent ],
+	declarations: [ AppComponent, MovieViewComponent, NewGenreComponent, NewMovieComponent, LoginPageComponent, SignupPageComponent ],
 	imports: [ BrowserModule, AppRoutingModule, HttpModule ],
 	providers: [ MovieService, WebRequestService, AuthService ],
 	bootstrap: [ AppComponent ]

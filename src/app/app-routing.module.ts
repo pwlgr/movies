@@ -4,6 +4,7 @@ import { MovieViewComponent } from './pages/movie-view/movie-view.component';
 import { NewGenreComponent } from './pages/new-genre/new-genre.component';
 import { NewMovieComponent } from './pages/new-movie/new-movie.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { SignupPageComponent } from './pages/signup-page/signup-page.component';
 
 const routes: Routes = [
 	{
@@ -14,6 +15,10 @@ const routes: Routes = [
 	{
 		path: 'login',
 		component: LoginPageComponent
+	},
+	{
+		path: 'signup',
+		component: SignupPageComponent
 	},
 	{
 		path: 'new-genre',

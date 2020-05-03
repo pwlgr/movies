@@ -12,15 +12,12 @@ export class AuthService {
 			shareReplay(),
 			tap((res: any) => {
 				const body = JSON.parse(res._body);
-				console.log(res);
 				this.setSession(body._id, res.headers.get('x-access-token'), res.headers.get('x-refresh-token'));
-				console.log('LOGGED IN');
 			})
 		);
 	}
 
 	private setSession(userId: string, accessToken: string, refreshToken: string) {
-		console.log('from session');
 		localStorage.setItem('user-id', userId);
 		localStorage.setItem('x-access-token', accessToken);
 		localStorage.setItem('x-refresh-token', refreshToken);
@@ -33,5 +30,15 @@ export class AuthService {
 	}
 	logout() {
 		this.removeSession();
+	}
+
+	signup(email: string, password: string) {
+		return this.webService.signup(email, password).pipe(
+			shareReplay(),
+			tap((res: any) => {
+				const body = JSON.parse(res._body);
+				this.setSession(body._id, res.headers.get('x-access-token'), res.headers.get('x-refresh-token'));
+			})
+		);
 	}
 }

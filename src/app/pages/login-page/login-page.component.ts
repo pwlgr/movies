@@ -12,8 +12,6 @@ export class LoginPageComponent implements OnInit {
 	ngOnInit() {}
 
 	onLoginButtonClicked(email: string, password: string) {
-		this.authService.login(email, password).subscribe((res: any) => {
-			console.log('this is res', res);
-		});
+		this.authService.login(email, password).subscribe((res: any) => {});
 	}
 }
